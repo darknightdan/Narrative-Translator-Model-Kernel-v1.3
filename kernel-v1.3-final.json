@@ -1,0 +1,153 @@
+{
+  "kernel": "NTM4AI-v1.3.1",
+  "meta": {
+    "state": "production",
+    "date": "2026-01-12",
+    "version": "1.3.1",
+    "coverage": ">=0.72"
+  },
+  "ops": ["Obl","ExpP","NecC","CausA","InqC","CtfB","CertA","UncS","EvdR","EpDn","NegO","MinO","RevO","UniS","ParS","ScEx","ScCo","AggO","AgAs","AgDf","AgRm","TmpO","Cond","Pers","ChgE","Equv","Hier","Impl","Comp","ModS","EntR","IntA"],
+  "op_docs": {
+    "Obl": "Deontic obligation (must, required)",
+    "ExpP": "Expectation (should, ought)",
+    "NecC": "Necessity claim (necessary, essential)",
+    "CausA": "Causal assertion (because, therefore)",
+    "InqC": "Inquiry closure (settled, no debate)",
+    "CtfB": "Counterfactual barrier (cannot, impossible)",
+    "CertA": "Absolute certainty (clearly, obviously)",
+    "UncS": "Uncertainty scalar (probably, may)",
+    "EvdR": "Evidence reference (studies show)",
+    "EpDn": "Epistemic downgrade (seems, appears)",
+    "NegO": "Negation (not, no)",
+    "MinO": "Minimization (just, merely)",
+    "RevO": "Reversal (however, but)",
+    "UniS": "Universal scope (everyone, always)",
+    "ParS": "Partial scope (some, certain)",
+    "ScEx": "Scope expansion (broadly speaking)",
+    "ScCo": "Scope contraction (only, just)",
+    "AggO": "Aggregation (most, majority)",
+    "AgAs": "Agency assertion (X did Y)",
+    "AgDf": "Agency diffusion (passive voice)",
+    "AgRm": "Agency removal (it happened)",
+    "TmpO": "Temporal (before, after, when)",
+    "Cond": "Conditional (if, unless)",
+    "Pers": "Persistence (ongoing, continues)",
+    "ChgE": "Change event (became, shifted)",
+    "Equv": "Equivalence (equals, same as)",
+    "Hier": "Hierarchy (superior, foundational)",
+    "Impl": "Implication chain (therefore, thus)",
+    "Comp": "Comparison (like, unlike)",
+    "ModS": "Modifier (very, somewhat)",
+    "EntR": "Entropy reducer (specifically, precisely)",
+    "IntA": "Intent assertion (deliberately, intentionally)"
+  },
+  "categories": {
+    "Normative": ["Obl","ExpP","NecC"],
+    "Causal": ["CausA","InqC","CtfB","Impl"],
+    "Epistemic": ["CertA","UncS","EvdR","EpDn"],
+    "Polarity": ["NegO","MinO","RevO"],
+    "Scope": ["UniS","ParS","ScEx","ScCo","AggO"],
+    "Agency": ["AgAs","AgDf","AgRm","IntA"],
+    "Temporal": ["TmpO","Cond","Pers","ChgE"],
+    "Structural": ["Equv","Hier","Comp","ModS","EntR"]
+  },
+  "gravity": {
+    "Obl": [9,1,1,0.1],
+    "ExpP": [6,1,0.5,0.4],
+    "NecC": [8,1,1,0.2],
+    "CausA": [7,1,0.7,0.5],
+    "InqC": [9,2,1,0.1],
+    "CtfB": [8,1,0.8,0.3],
+    "CertA": [8,1,0.8,0.4],
+    "UncS": [3,1,0.3,0.9],
+    "EvdR": [6,1,0.5,0.6],
+    "EpDn": [4,1,0.4,0.7],
+    "NegO": [8,1,0.2,0.9],
+    "MinO": [5,0,0.2,0.8],
+    "RevO": [6,1,0.5,0.6],
+    "UniS": [9,2,1,0.3],
+    "ParS": [4,1,0.5,0.7],
+    "ScEx": [6,2,0.7,0.5],
+    "ScCo": [6,2,0.6,0.5],
+    "AggO": [7,2,0.8,0.3],
+    "AgAs": [7,1,0.7,0.5],
+    "AgDf": [8,2,0.9,0.2],
+    "AgRm": [9,2,1,0.1],
+    "TmpO": [5,1,0.4,0.7],
+    "Cond": [6,1,0.5,0.6],
+    "Pers": [6,2,0.8,0.4],
+    "ChgE": [6,1,0.5,0.6],
+    "Equv": [7,2,0.9,0.3],
+    "Hier": [8,2,0.9,0.2],
+    "Impl": [7,2,0.8,0.4],
+    "Comp": [5,0,0.3,0.8],
+    "ModS": [5,0,0.3,0.8],
+    "EntR": [4,2,0.9,0.1],
+    "IntA": [6,1,0.6,0.5]
+  },
+  "gravity_schema": {
+    "position_0": "base_gravity - Initial anchoring strength (0-9 scale)",
+    "position_1": "span - Max clause hops for propagation (0=local, 1+=cross-boundary)",
+    "position_2": "blend_weight - Contribution to same-category blending penalty (0.0-1.0)",
+    "position_3": "decay_rate - Per-hop reduction factor (0.0-1.0, higher=faster fade)",
+    "propagation_formula": "influence = base_gravity * ((1 - decay_rate) ** hop_count)"
+  },
+  "edges": [
+    ["CertA","UncS","illegal",1.0],
+    ["CausA","InqC","illegal",0.95],
+    ["AgDf","AgAs","illegal",0.9],
+    ["UniS","ScCo","unstable",0.7],
+    ["Hier","Equv","unstable",0.8],
+    ["Impl","EntR","illegal",1.0],
+    ["CertA","EvdR","unstable",0.6],
+    ["NegO","InqC","unstable",0.7],
+    ["ScEx","MinO","unstable",0.6],
+    ["EvdR","NegO","illegal",0.9]
+  ],
+  "edge_notes": {
+    "AgDf_AgAs": "Classified illegal to catch same-clause agency laundering. May false-positive on cross-sentence temporal agency shifts until sentence-boundary scope checking is added. Current behavior: illegal on any adjacent pair in flattened sequence."
+  },
+  "composition": [
+    {"pat": ["NegO","Obl"], "legal": true},
+    {"pat": ["CausA","CtfB"], "legal": false}
+  ],
+  "heuristics": {
+    "silent_certainty": {
+      "if_any": ["Obl","NecC","InqC","UniS"],
+      "unless_any": ["UncS","EvdR","NegO+EvdR"],
+      "inject": "CertA",
+      "notes": "NegO+EvdR blocker: If both NegO AND EvdR appear anywhere in sentence (no order/adjacency required), block CertA injection to prevent faux-evidence laundering patterns."
+    }
+  },
+  "drift": {
+    "illegal_mult": 10,
+    "unstable_mult": 6,
+    "gravity_drop": 3,
+    "gravity_mult": 0.8,
+    "blend_thresh": 4,
+    "blend_mult": 1.5,
+    "anchor_len": 5,
+    "anchor_req": 8,
+    "anchor_penalty": 2.5,
+    "entropy_mult": 3,
+    "cross_sentence_mult": 1.5,
+    "cap": 10
+  },
+  "thresholds": {
+    "pass": [0, 2.9],
+    "warn": [3, 4.9],
+    "caution": [5, 6.9],
+    "block": [7, 9.9],
+    "critical": 10
+  },
+  "fingerprint": {
+    "fields": ["illegal_edges","unstable_edges","gravity_collapse","blending","anchoring_failure","entropy_injection","silent_certainty","total_drift"]
+  },
+  "extraction_prompt": "You are a deterministic semantic operator extractor using NTM4AI Kernel v1.3.1. Output ONLY a JSON array of operator symbols. No explanations.\n\nSymbols: Obl,ExpP,NecC,CausA,InqC,CtfB,CertA,UncS,EvdR,EpDn,NegO,MinO,RevO,UniS,ParS,ScEx,ScCo,AggO,AgAs,AgDf,AgRm,TmpO,Cond,Pers,ChgE,Equv,Hier,Impl,Comp,ModS,EntR,IntA\n\nRules (greedy, high-gravity first):\n- must/have to → Obl\n- clearly/obviously → CertA\n- but/however → NegO\n- because/therefore(local) → CausA\n- always/never → UniS\n- cannot/impossible → NegO+CtfB\n- probably/may → UncS\n- studies/evidence → EvdR\n- seems/appears → EpDn\n- passive/system → AgDf/AgRm\n- everyone/all → UniS\n- only/just → ScCo\n- not/no → NegO\n- before/after → TmpO\n- if/unless → Cond\n- equals/same as → Equv\n- therefore(chain) → Impl\n- no need to debate → InqC\n\nSilent-certainty: If clause has Obl/NecC/InqC/UniS and no prior UncS/EvdR/NegO+EvdR, inject CertA before highest-gravity op.\n\nOutput format: [\"Obl\",\"CausA\",\"CertA\"]",
+  "implementation_notes": {
+    "sentence_boundaries": "Current implementation uses flattened operator sequences without sentence boundary awareness. Cross-sentence patterns may trigger edges designed for same-clause detection (known: AgDf→AgAs false positives).",
+    "span_propagation": "Span parameter affects gravity propagation to downstream operators, NOT edge detection. Edges are checked strictly on adjacent pairs.",
+    "decay_application": "influence = base_gravity * ((1 - decay_rate) ** hop_count). Higher decay = faster fade.",
+    "future_enhancements": "Sentence-boundary scope checking, ParS→UniS edge, category transitions heuristic"
+  }
+}
