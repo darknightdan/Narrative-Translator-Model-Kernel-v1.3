@@ -1,6 +1,6 @@
 # NTM4AI Kernel v1.3.1
 
-Extremely useful tool works on any Ai. You can use it even as part of a prompt or custom instructions it's so small, but mighty. First of its kind, a small piece of a much project coming soon
+Extremely useful tool works on any Ai. You can use it even as part of a prompt or custom instructions. A small piece of a much larger project coming soon
 
 Tiny, deterministic, symbolic semantic operator kernel  
 (~2k tokens) for detecting structural language failures in LLM outputs.
